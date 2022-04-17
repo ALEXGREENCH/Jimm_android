@@ -1,0 +1,32 @@
+buildscript {
+
+    repositories {
+        maven {
+            url 'https://dl.google.com/dl/android/maven2'
+
+        }
+        jcenter()
+        google()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.3'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'http://repo.spring.io/libs-release/'
+            allowInsecureProtocol = true
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
