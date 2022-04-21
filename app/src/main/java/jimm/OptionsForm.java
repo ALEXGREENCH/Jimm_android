@@ -476,10 +476,10 @@ public class OptionsForm implements FormListener, ControlStateListener, SelectLi
                 setChecked("recreate_textbox", Options.OPTION_RECREATE_TEXTBOX);
                 setChecked("detransliterate", Options.OPTION_DETRANSLITERATE);
                 createSelector("input_mode",
-                        "default" + "|" + "latin" + "|" + "cyrillic",
+                        "_default" + "|" + "latin" + "|" + "cyrillic",
                         Options.OPTION_INPUT_MODE);
                 createSelector("keyboard_type",
-                        "default" + "|" + "QWERTY" + "|" + "old_se_keys" + "|" + "no",
+                        "_default" + "|" + "QWERTY" + "|" + "old_se_keys" + "|" + "no",
                         Options.OPTION_KEYBOARD);
                 // #sijapp cond.else #
                 setChecked("use_simple_input", Options.OPTION_SIMPLE_INPUT);
