@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId 'ru.net.jimm'
-        minSdkVersion 16
+        minSdkVersion 4
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 27
         versionCode 51

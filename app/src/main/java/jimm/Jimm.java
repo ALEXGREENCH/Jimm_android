@@ -21,7 +21,6 @@
  Author(s): Manuel Linsmayer, Andreas Rossbacher, Vladimir Kryukov
  *******************************************************************************/
 
-
 package jimm;
 
 import java.io.*;
@@ -39,7 +38,6 @@ import jimm.util.JLocale;
 import protocol.Protocol;
 import protocol.ui.MessageEditor;
 import protocol.ui.StatusView;
-
 
 public class Jimm {
     private boolean locked = false;
@@ -75,12 +73,15 @@ public class Jimm {
             return;
         }
         // #sijapp cond.end #
+        /*
         if (url.equals("jimm:update")) {
             url = "http://jimm.net.ru/go.xhtml?act=update&lang="
                     + JLocale.getCurrUiLanguage()
                     + "&protocols=###PROTOCOLS###&cdata="
                     + Tokenizer.loadResource("build.dat");
         }
+
+         */
         JimmMidlet.getMidlet().platformRequest(url.trim());
     }
     public void openUrl(String url, boolean exit) {

@@ -2,16 +2,27 @@ package ru.net.jimm.service;
 
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
-import android.os.*;
+import android.graphics.Color;
+import android.os.Binder;
+import android.os.Build;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.util.Log;
-import jimm.Jimm;
-import jimmui.model.chat.ChatModel;
-import jimm.cl.JimmModel;
+
 import org.bombusmod.scrobbler.MusicReceiver;
+
+import jimm.Jimm;
+import jimm.cl.JimmModel;
+import jimmui.model.chat.ChatModel;
 import protocol.Protocol;
 import protocol.ProtocolHelper;
 import ru.net.jimm.JimmActivity;
@@ -51,7 +62,6 @@ public class JimmService extends Service {
     }
 
 
-
     @Override
     public void onDestroy() {
         Log.i(LOG_TAG, "onDestroy();");
@@ -69,44 +79,99 @@ public class JimmService extends Service {
     }
 
     private Notification getNotification() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null;
-        int unread = getPersonalUnreadMessageCount(false);
-        int allUnread = getPersonalUnreadMessageCount(true);
-        CharSequence stateMsg = "";
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            int unread = getPersonalUnreadMessageCount(false);
+            int allUnread = getPersonalUnreadMessageCount(true);
+            CharSequence stateMsg = "";
 
-        boolean version2 = (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB);
-        final int icon;
-        if (0 < allUnread) {
-            icon = version2 ? R.drawable.ic2_tray_msg : R.drawable.ic3_tray_msg;
-        } else if (Jimm.getJimm().jimmModel.isConnected()) {
-            icon = version2 ? R.drawable.ic2_tray_on : R.drawable.ic3_tray_on;
-            stateMsg = getText(R.string.online);
-        } else {
-            icon = version2 ? R.drawable.ic2_tray_off : R.drawable.ic3_tray_off;
-            if (Jimm.getJimm().jimmModel.isConnecting()) {
-                stateMsg = getText(R.string.connecting);
+            boolean version2 = (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB);
+            final int icon;
+            if (0 < allUnread) {
+                icon = version2 ? R.drawable.ic2_tray_msg : R.drawable.ic3_tray_msg;
+            } else if (Jimm.getJimm().jimmModel.isConnected()) {
+                icon = version2 ? R.drawable.ic2_tray_on : R.drawable.ic3_tray_on;
+                stateMsg = getText(R.string.online);
             } else {
-                stateMsg = getText(R.string.offline);
+                icon = version2 ? R.drawable.ic2_tray_off : R.drawable.ic3_tray_off;
+                if (Jimm.getJimm().jimmModel.isConnecting()) {
+                    stateMsg = getText(R.string.connecting);
+                } else {
+                    stateMsg = getText(R.string.offline);
+                }
             }
-        }
 
-        final Notification notification = new Notification(icon, getText(R.string.app_name), 0);
-        if (0 < allUnread) {
-            notification.number = allUnread;
-            stateMsg = String.format((String) getText(R.string.unreadMessages), allUnread);
-        }
+            final Notification notification = new Notification(icon, getText(R.string.app_name), 0);
+            if (0 < allUnread) {
+                notification.number = allUnread;
+                stateMsg = String.format((String) getText(R.string.unreadMessages), allUnread);
+            }
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, JimmActivity.class), 0);
-        //todo: !!!!!!!!!!
-        //notification.setLatestEventInfo(this, getText(R.string.app_name), stateMsg, contentIntent);
-        notification.defaults = 0;
-        if (0 < unread) {
-            notification.ledARGB = 0xff00ff00;
-            notification.ledOnMS = 300;
-            notification.ledOffMS = 1000;
-            notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+            //todo: !!!!!!!!!!
+            //notification.setLatestEventInfo(this, getText(R.string.app_name), stateMsg, contentIntent);
+
+            // new
+            notification.contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, JimmActivity.class), 0);
+            notification.tickerText = stateMsg;
+
+            notification.defaults = 0;
+            if (0 < unread) {
+                notification.ledARGB = 0xff00ff00;
+                notification.ledOnMS = 300;
+                notification.ledOffMS = 1000;
+                notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+            }
+            return notification;
+        } else {
+            int allUnread = getPersonalUnreadMessageCount(true);
+            CharSequence stateMsg = "";
+
+            final int icon;
+            if (0 < allUnread) {
+                icon = R.drawable.ic3_tray_msg;
+            } else if (Jimm.getJimm().jimmModel.isConnected()) {
+                icon = R.drawable.ic3_tray_on;
+                stateMsg = getText(R.string.online);
+            } else {
+                icon = R.drawable.ic3_tray_off;
+                if (Jimm.getJimm().jimmModel.isConnecting()) {
+                    stateMsg = getText(R.string.connecting);
+                } else {
+                    stateMsg = getText(R.string.offline);
+                }
+            }
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            String CHANNEL_ID = "jimm_channel";
+            CharSequence name = "my_channel";
+            String Description = "This is my channel";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            mChannel.setDescription(Description);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mChannel.setShowBadge(false);
+            notificationManager.createNotificationChannel(mChannel);
+
+
+            Notification.Builder notificationBuilder = new Notification.Builder(this, CHANNEL_ID);
+            notificationBuilder.setSmallIcon(icon)
+                    .setContentTitle("Jimm!")
+                    .setContentText(stateMsg);
+                    //.setPriority(Notification.PRIORITY_MAX);
+
+            Intent resultIntent = new Intent(this, JimmActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(JimmActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            notificationBuilder.setContentIntent(resultPendingIntent);
+
+
+            return notificationBuilder.build();
+
         }
-        return notification;
     }
 
     public boolean handleMessage(Message msg) {
