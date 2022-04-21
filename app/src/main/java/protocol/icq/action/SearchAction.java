@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ********************************************************************************
 File: src/jimm/comm/SearchAction.java
- Version: ###VERSION###  Date: ###DATE###
+ Version: 0.7.1m  Date: 21.04.2022
 Author(s): Andreas Rossbacher
 *******************************************************************************/
 

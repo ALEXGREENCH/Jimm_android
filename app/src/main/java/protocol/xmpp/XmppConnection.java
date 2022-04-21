@@ -837,7 +837,7 @@ public final class XmppConnection extends ClientConnection {
                     putPacketIntoQueue("<iq type='result' to='"
                             + Util.xmlEscape(from) + "' id='" + Util.xmlEscape(id) + "'>"
                             + "<query xmlns='jabber:iq:version'><name>Jimm</name><version>"
-                            + Util.xmlEscape(Jimm.getJimm().VERSION + " (###DATE###)")
+                            + Util.xmlEscape(Jimm.getJimm().VERSION + " (21.04.2022)")
                             + "</version><os>"
                             + Util.xmlEscape(Jimm.getJimm().phone.microeditionPlatform)
                             + "</os></query></iq>");

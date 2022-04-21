@@ -17,7 +17,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  ********************************************************************************
  File: src/DrawControls/VirtualTree.java
- Version: ###VERSION###  Date: ###DATE###
+ Version: 0.7.1m  Date: 21.04.2022
  Author(s): Artyomov Denis, Vladimir Kryukov
  *******************************************************************************/
 
@@ -115,7 +115,7 @@ public final class VirtualContactList extends SomeContentList {
 
     //Updates the title of the list
     public void updateTitle() {
-        String text = "Jimm Multi";
+        String text = "KICQ";
         if (((RosterContent)content).getModel() == getUpdater().getChatModel()) {
             text = JLocale.getString("chats");
         }

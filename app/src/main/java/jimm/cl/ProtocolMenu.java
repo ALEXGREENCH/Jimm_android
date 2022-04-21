@@ -87,7 +87,7 @@ public class ProtocolMenu implements SelectListener {
 
         // #sijapp cond.if modules_SOUND is "true" #
         boolean isSilent = Options.getBoolean(Options.OPTION_SILENT_MODE);
-        menu.addItem(isSilent ? "#sound_on" : "#sound_off", MENU_SOUND);
+        menu.addItem(isSilent ? "sound_on" : "sound_off", MENU_SOUND);
         // #sijapp cond.end#
 
         menu.addItem("about", MENU_ABOUT);

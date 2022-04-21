@@ -328,7 +328,7 @@ public class Notify implements Runnable
         Options.setBoolean(Options.OPTION_SILENT_MODE, newValue);
         Options.safeSave();
         if (showPopup) {
-            String text = newValue ? "#sound_is_off" : "#sound_is_on";
+            String text = newValue ? "sound_is_off" : "sound_is_on";
             new Popup(JLocale.getString(text)).show();
         }
         vibrate(newValue ? 0 : 100);

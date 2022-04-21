@@ -17,22 +17,19 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  ********************************************************************************
  File: src/jimm/util/ResourceBundle.java
- Version: ###VERSION###  Date: ###DATE###
+ Version: 0.7.1m  Date: 21.04.2022
  Author(s): Manuel Linsmayer, Artyomov Denis, Vladimir Kryukov
  *******************************************************************************/
 
 package jimm.util;
 
-import android.content.Context;
 import android.util.Log;
 
-import java.util.Hashtable;
-import java.io.InputStream;
 import java.io.DataInputStream;
+import java.io.InputStream;
+import java.util.Hashtable;
 
-import jimm.Jimm;
 import jimm.comm.Config;
-import protocol.Contact;
 import protocol.net.TcpSocket;
 import ru.net.jimm.JimmApplication;
 
@@ -92,7 +89,8 @@ public class JLocale {
         currentLanguage = language;
         loadLang();
     }
-    
+
+    @Deprecated
     private static void loadLang(String lang) {
         InputStream istream = null;
         try {
@@ -125,8 +123,19 @@ public class JLocale {
     // Get string from active language pack
     public static String getString(String key) {
         if (null == key) return null;
-        String value = (String) resources.get(key);
-        return (null == value) ? key : value;
+
+        String packageName = JimmApplication.application.getPackageName();
+        int resId = JimmApplication.application.getResources().getIdentifier(key, "string", packageName);
+        String byKey = key;
+        try {
+            byKey = JimmApplication.application.getString(resId);
+        }catch (Exception ignored){}
+
+        return byKey;
+
+        // TODO: j2me
+        //String value = (String) resources.get(key);
+        //return (null == value) ? key : value;
     }
     
     public static String getEllipsisString(String key) {

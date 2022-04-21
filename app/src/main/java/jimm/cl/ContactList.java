@@ -17,7 +17,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  ********************************************************************************
  File: src/jimm/ContactList.java
- Version: ###VERSION###  Date: ###DATE###
+ Version: 0.7.1m  Date: 21.04.2022
  Author(s): Manuel Linsmayer, Andreas Rossbacher, Artyomov Denis
  *******************************************************************************/
 

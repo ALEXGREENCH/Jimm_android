@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *******************************************************************************
  * File: src/jimm/Options.java
- * Version: ###VERSION###  Date: ###DATE###
+ * Version: 0.7.1m  Date: 21.04.2022
  * Author(s): Manuel Linsmayer, Andreas Rossbacher, Artyomov Denis, Igor Palkin,
  * Vladimir Kryukov
  ******************************************************************************/
@@ -65,7 +65,7 @@ public class OptionsForm implements FormListener, ControlStateListener, SelectLi
             + "|" + "minimize"
             // #sijapp cond.end#
             // #sijapp cond.if modules_SOUND is "true" #
-            + "|" + "#sound_off"
+            + "|" + "sound_off"
             // #sijapp cond.end#
             // #sijapp cond.if modules_MAGIC_EYE is "true" #
             + "|" + "magic eye"
