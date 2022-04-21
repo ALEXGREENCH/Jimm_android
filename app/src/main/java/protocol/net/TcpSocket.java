@@ -87,7 +87,7 @@ public final class TcpSocket {
     public int read(byte[] data, int offset, int length) throws JimmException {
         try {
             // #sijapp cond.if modules_ANDROID isnot "true" #
-            length = Math.min(length, is.available());
+            //length = Math.min(length, is.available());
             // #sijapp cond.end #
             if (0 == length) {
                 return 0;

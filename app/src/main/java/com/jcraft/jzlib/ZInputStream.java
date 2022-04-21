@@ -77,7 +77,7 @@ public final class ZInputStream {
 
                 int length = buf.length;
                 // #sijapp cond.if modules_ANDROID isnot "true" #
-                length = Math.min(length, in.available());
+                //length = Math.min(length, in.available());
                 // #sijapp cond.end #
                 if (0 < length) {
                     buffer.avail_in = in.read(buf, 0, length);

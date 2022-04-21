@@ -72,7 +72,7 @@ public class ProtocolMenu implements SelectListener {
         Protocol p = activeProtocol;
         menu.clean();
         // #sijapp cond.if modules_ANDROID isnot "true" #
-        menu.addItem("keylock_enable", MENU_KEYLOCK);
+        //menu.addItem("keylock_enable", MENU_KEYLOCK);
         // #sijapp cond.end #
         if (null == p) {
             menu.addItem("set_status", GlobalStatusForm.getGlobalStatusIcon(), MENU_GLOBAL_STATUS);

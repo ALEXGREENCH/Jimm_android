@@ -119,7 +119,7 @@ public final class SysTextList extends TextListController {
 
         MenuModel m = new MenuModel();
         // #sijapp cond.if modules_ANDROID isnot "true" #
-        m.addItem("update_jimm", SysTextList.MENU_UPDATE);
+        //m.addItem("update_jimm", SysTextList.MENU_UPDATE);
         // #sijapp cond.end #
         // #sijapp cond.if modules_TRAFFIC is "true" #
         m.addItem("reset", SysTextList.MENU_RESET);

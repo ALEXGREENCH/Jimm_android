@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -16,15 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import jimm.Jimm;
 import jimm.Options;
 import jimm.comm.StringUtils;
-import jimmui.ContentActionListener;
-import jimmui.model.chat.ChatModel;
-import jimmui.view.base.SomeContent;
-import jimmui.view.chat.Chat;
 import jimm.modules.Emotions;
 import jimm.modules.Templates;
+import jimmui.model.chat.ChatModel;
+import jimmui.view.chat.Chat;
 import jimmui.view.smiles.SmilesContent;
 import ru.net.jimm.JimmActivity;
 import ru.net.jimm.R;
@@ -37,6 +37,7 @@ import ru.net.jimm.R;
  * @author vladimir
  */
 public class Input extends LinearLayout implements View.OnClickListener, View.OnLongClickListener {
+
     private EditText messageEditor;
     private volatile Chat owner;
     private static State state = new State(null);
@@ -45,26 +46,27 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
 
     public Input(Context context, AttributeSet attrs, int id) {
         super(context, attrs);
+        Log.d("init", "Input");
         updateInput();
         setId(id);
     }
     public void updateInput() {
+        Log.d("init", "Input: updateInput");
         boolean simple = Options.getBoolean(Options.OPTION_SIMPLE_INPUT);
         final int newLayout = simple ? R.layout.input_simple : R.layout.input;
         if (layout != newLayout) {
             JimmActivity activity = (JimmActivity) getContext();
-            activity.post(new Runnable() {
-                @Override
-                public void run() {
-                    layout = newLayout;
-                    init();
-                    requestLayout();
-                }
+            activity.post(() -> {
+                layout = newLayout;
+                init();
+                requestLayout();
             });
         }
     }
 
     private void init() {
+        Log.d("init", "Input: init");
+
         removeAllViewsInLayout();
         ((Activity)getContext())
                 .getLayoutInflater()
@@ -81,12 +83,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         ImageButton sendButton = (ImageButton) findViewById(R.id.input_send_button);
         sendByEnter = (null == sendButton);
         if (null != sendButton) {
-            sendButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    send();
-                }
-            });
+            sendButton.setOnClickListener(view -> send());
         }
         if (sendByEnter) {
             messageEditor.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -97,34 +94,18 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
 
     @Override
     public void onClick(View view) {
-        Emotions.selectEmotion(new ContentActionListener() {
-            @Override
-            public void action(final SomeContent canvas, int cmd) {
-                ((JimmActivity)getContext()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        insert(" " + ((SmilesContent)canvas).getSelectedCode() + " ");
-                        showKeyboard();
-                    }
-                });
-            }
-        });
+        Emotions.selectEmotion((canvas, cmd) -> ((JimmActivity)getContext()).post(() -> {
+            insert(" " + ((SmilesContent)canvas).getSelectedCode() + " ");
+            showKeyboard();
+        }));
     }
 
     @Override
     public boolean onLongClick(View view) {
-        Templates.getInstance().showTemplatesList(new ContentActionListener() {
-            @Override
-            public void action(SomeContent canvas, int cmd) {
-                ((JimmActivity) getContext()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        insert(Templates.getInstance().getSelectedTemplate());
-                        showKeyboard();
-                    }
-                });
-            }
-        });
+        Templates.getInstance().showTemplatesList((canvas, cmd) -> ((JimmActivity) getContext()).post(() -> {
+            insert(Templates.getInstance().getSelectedTemplate());
+            showKeyboard();
+        }));
         return true;
     }
 
@@ -141,18 +122,8 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
     public void showKeyboard() {
-        ((JimmActivity)getContext()).post(new Runnable() {
-            @Override
-            public void run() {
-                messageEditor.requestFocus();
-            }
-        });
-        ((JimmActivity)getContext()).post(new Runnable() {
-            @Override
-            public void run() {
-                showKeyboard(messageEditor);
-            }
-        });
+        ((JimmActivity)getContext()).post(() -> messageEditor.requestFocus());
+        ((JimmActivity)getContext()).post(() -> showKeyboard(messageEditor));
     }
 
     private void send() {
@@ -171,16 +142,13 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
     }
 
     public void setText(final String text) {
-        ((JimmActivity)getContext()).post(new Runnable() {
-            @Override
-            public void run() {
-                String t = null == text ? "" : text;
-                if ((0 == t.length()) || !canAdd(t)) {
-                    messageEditor.setText(t);
-                    messageEditor.setSelection(t.length());
-                } else {
-                    insert(t);
-                }
+        ((JimmActivity)getContext()).post(() -> {
+            String t = null == text ? "" : text;
+            if ((0 == t.length()) || !canAdd(t)) {
+                messageEditor.setText(t);
+                messageEditor.setSelection(t.length());
+            } else {
+                insert(t);
             }
         });
         showKeyboard();
@@ -195,6 +163,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         return !text.endsWith(", ");
     }
     public void resetOwner() {
+        Log.d("init", "Input: resetOwner");
         this.owner = null;
     }
     public void setOwner(Chat owner) {
@@ -209,24 +178,18 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
                 final String hint = (null == name)
                         ? getContext().getString(R.string.hint_message)
                         : getContext().getString(R.string.hint_message_to, name);
-                ((JimmActivity)getContext()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        messageEditor.setHint(hint);
-                        messageEditor.setText(newState.text);
-                        messageEditor.setSelection(newState.text.length());
-                    }
+                ((JimmActivity)getContext()).post(() -> {
+                    messageEditor.setHint(hint);
+                    messageEditor.setText(newState.text);
+                    messageEditor.setSelection(newState.text.length());
                 });
             }
         }
     }
     public void resetText() {
-        ((JimmActivity)getContext()).post(new Runnable() {
-            @Override
-            public void run() {
-                messageEditor.setText("");
-                state.text = "";
-            }
+        ((JimmActivity)getContext()).post(() -> {
+            messageEditor.setText("");
+            state.text = "";
         });
     }
     public String getText() {
@@ -249,18 +212,17 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
                 || (EditorInfo.IME_ACTION_DONE == actionId)
                 || (EditorInfo.IME_ACTION_SEND == actionId);
     }
-    private final TextView.OnEditorActionListener enterListener = new TextView.OnEditorActionListener() {
-        public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
-            if (isDone(actionId)) {
-                if ((null == event) || (event.getAction() == KeyEvent.ACTION_DOWN)) {
-                    send();
-                    return true;
-                }
+    private final TextView.OnEditorActionListener enterListener = (exampleView, actionId, event) -> {
+        if (isDone(actionId)) {
+            if ((null == event) || (event.getAction() == KeyEvent.ACTION_DOWN)) {
+                send();
+                return true;
             }
-            return false;
         }
+        return false;
     };
-    private TextWatcher textWatcher = new TextWatcher() {
+
+    private final TextWatcher textWatcher = new TextWatcher() {
         private String previousText;
         private int lineCount = 0;
         @Override
@@ -300,7 +262,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
     }
 
     private static class State {
-        private ChatModel ownerChatModel;
+        private final ChatModel ownerChatModel;
         private CharSequence text;
         public State(ChatModel model) {
             this.ownerChatModel = model;

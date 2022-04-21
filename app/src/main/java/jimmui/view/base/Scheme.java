@@ -52,7 +52,7 @@ public class Scheme {
     public static void load() {
         setColorScheme(baseTheme);
 
-        Vector<Config> themes = new Vector<Config>();
+        Vector<Config> themes = new Vector<>();
         try {
             Config.parseIniConfig("/themes.txt", themes);
         } catch (Exception ignored) {

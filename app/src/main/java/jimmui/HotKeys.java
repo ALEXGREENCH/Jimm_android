@@ -25,31 +25,31 @@ public class HotKeys {
     private static int getHotKeyOpCode(int keyCode) {
         int action = Options.HOTKEY_NONE;
         // #sijapp cond.if modules_ANDROID isnot "true" #
-        switch (keyCode) {
-            case Canvas.KEY_NUM0:
-                action = Options.getInt(Options.OPTION_EXT_CLKEY0);
-                break;
-            case Canvas.KEY_NUM4:
-                action = Options.getInt(Options.OPTION_EXT_CLKEY4);
-                break;
-
-            case Canvas.KEY_NUM6:
-                action = Options.getInt(Options.OPTION_EXT_CLKEY6);
-                break;
-
-            case Canvas.KEY_STAR:
-                action = Options.getInt(Options.OPTION_EXT_CLKEYSTAR);
-                break;
-
-            case Canvas.KEY_POUND:
-                action = Options.getInt(Options.OPTION_EXT_CLKEYPOUND);
-                break;
-
-            case NativeCanvas.CAMERA_KEY:
-            case NativeCanvas.CALL_KEY:
-                action = Options.getInt(Options.OPTION_EXT_CLKEYCALL);
-                break;
-        }
+        //switch (keyCode) {
+        //    case Canvas.KEY_NUM0:
+        //        action = Options.getInt(Options.OPTION_EXT_CLKEY0);
+        //        break;
+        //    case Canvas.KEY_NUM4:
+        //        action = Options.getInt(Options.OPTION_EXT_CLKEY4);
+        //        break;
+//
+        //    case Canvas.KEY_NUM6:
+        //        action = Options.getInt(Options.OPTION_EXT_CLKEY6);
+        //        break;
+//
+        //    case Canvas.KEY_STAR:
+        //        action = Options.getInt(Options.OPTION_EXT_CLKEYSTAR);
+        //        break;
+//
+        //    case Canvas.KEY_POUND:
+        //        action = Options.getInt(Options.OPTION_EXT_CLKEYPOUND);
+        //        break;
+//
+        //    case NativeCanvas.CAMERA_KEY:
+        //    case NativeCanvas.CALL_KEY:
+        //        action = Options.getInt(Options.OPTION_EXT_CLKEYCALL);
+        //        break;
+        //}
         // #sijapp cond.end #
         return action;
     }

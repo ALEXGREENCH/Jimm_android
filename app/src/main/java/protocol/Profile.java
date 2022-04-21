@@ -32,71 +32,72 @@ public final class Profile {
     public static final byte PROTOCOL_VK_API = 20;
     public static final String[] protocolNames = Util.explode((""
             // #sijapp cond.if protocols_ICQ is "true"#
-            + "|ICQ"
+            + "|ICQ Oscar"
             // #sijapp cond.end #
             // #sijapp cond.if protocols_MRIM is "true" #
-            + "|Mail.ru Agent"
+            //+ "|Mail.ru Agent"
             // #sijapp cond.end #
             // #sijapp cond.if protocols_JABBER is "true" #
             + "|XMPP (Jabber)"
-            + "|Facebook"
-            + "|\u041e\u0434\u043d\u043e\u043a\u043b\u0430\u0441\u0441\u043d\u0438\u043a\u0438"
-            + "|LiveJournal"
-            + "|GTalk"
-            + "|Ya.Online"
-            + "|QIP"
-            // #sijapp cond.end #
-            // #sijapp cond.if protocols_OBIMP is "true" #
-            + "|OBIMP"
-            // #sijapp cond.end #
-            // #sijapp cond.if protocols_VKAPI is "true" #
-            + "|vk.com (api)"
-            // #sijapp cond.end #
+            //+ "|Facebook"
+            //+ "|\u041e\u0434\u043d\u043e\u043a\u043b\u0430\u0441\u0441\u043d\u0438\u043a\u0438"
+            //+ "|LiveJournal"
+            //+ "|GTalk"
+            //+ "|Ya.Online"
+            //+ "|QIP"
+            //// #sijapp cond.end #
+            //// #sijapp cond.if protocols_OBIMP is "true" #
+            //+ "|OBIMP"
+            //// #sijapp cond.end #
+            //// #sijapp cond.if protocols_VKAPI is "true" #
+            //+ "|vk.com (api)"
+            //// #sijapp cond.end #
     ).substring(1), '|');
     public static final byte[] protocolTypes = new byte[] {
             // #sijapp cond.if protocols_ICQ is "true"#
             PROTOCOL_ICQ,
             // #sijapp cond.end #
             // #sijapp cond.if protocols_MRIM is "true" #
-            PROTOCOL_MRIM,
+            //////////PROTOCOL_MRIM,
             // #sijapp cond.end #
             // #sijapp cond.if protocols_JABBER is "true" #
             PROTOCOL_XMPP,
-            PROTOCOL_FACEBOOK,
-            PROTOCOL_ODNOKLASSNIKI,
-            PROTOCOL_LJ,
-            PROTOCOL_GTALK,
-            PROTOCOL_YANDEX,
-            PROTOCOL_QIP,
+            //////////PROTOCOL_FACEBOOK,
+            //////////PROTOCOL_ODNOKLASSNIKI,
+            //////////PROTOCOL_LJ,
+            //////////PROTOCOL_GTALK,
+            //////////PROTOCOL_YANDEX,
+            //////////PROTOCOL_QIP,
             // #sijapp cond.end #
             // #sijapp cond.if protocols_OBIMP is "true" #
-            PROTOCOL_OBIMP,
+            //////////PROTOCOL_OBIMP,
             // #sijapp cond.end #
             // #sijapp cond.if protocols_VKAPI is "true" #
-            PROTOCOL_VK_API,
+            //////////PROTOCOL_VK_API,
             // #sijapp cond.end #
     };
     public static final String[] protocolIds = new String[] {
             // #sijapp cond.if protocols_ICQ is "true"#
-            "UIN/E-mail",
+            //////////"UIN/E-mail",
+            "UIN",
             // #sijapp cond.end #
             // #sijapp cond.if protocols_MRIM is "true" #
-            "e-mail",
+            //////////"e-mail",
             // #sijapp cond.end #
             // #sijapp cond.if protocols_JABBER is "true" #
             "jid",
-            "Login",
-            "ID",
-            "Login",
-            "Login",
-            "Login",
-            "Login",
+            //////////"Login",
+            //////////"ID",
+            //////////"Login",
+            //////////"Login",
+            //////////"Login",
+            //////////"Login",
             // #sijapp cond.end #
             // #sijapp cond.if protocols_OBIMP is "true" #
-            "ObimpID",
+            //////////"ObimpID",
             // #sijapp cond.end #
             // #sijapp cond.if protocols_VKAPI is "true" #
-            "E-mail/phone",
+            //////////"E-mail/phone",
             // #sijapp cond.end #
     };
 

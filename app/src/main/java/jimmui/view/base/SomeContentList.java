@@ -20,10 +20,10 @@ public class SomeContentList extends CanvasEx {
 
     public SomeContentList() {
         // #sijapp cond.if modules_ANDROID isnot "true"#
-        bar.setCaption(null);
-        softBar.setSoftBarLabels("menu", null, "back", false);
-        setSize(Jimm.getJimm().getDisplay().getScreenWidth(),
-                Jimm.getJimm().getDisplay().getScreenHeight());
+        //bar.setCaption(null);
+        //softBar.setSoftBarLabels("menu", null, "back", false);
+        //setSize(Jimm.getJimm().getDisplay().getScreenWidth(),
+        //        Jimm.getJimm().getDisplay().getScreenHeight());
         // #sijapp cond.end#
     }
 

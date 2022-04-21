@@ -9,17 +9,20 @@
 
 package jimmui.view.base;
 
+import android.util.Log;
+
 import java.util.Vector;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.Displayable;
+
 import jimm.JimmMidlet;
-import jimmui.view.chat.Chat;
 import jimm.comm.Util;
-import jimm.modules.*;
-import jimmui.view.*;
+import jimmui.view.InputTextBox;
+import jimmui.view.chat.Chat;
 import jimmui.view.form.Menu;
 
 /**
- *
  * @author Vladimir Kryukov
  */
 public class Display {
@@ -31,25 +34,29 @@ public class Display {
     public static final long LONG_INTERVAL = 700;
     private DisplayableEx main;
 
-    /** Creates a new instance of Display */
+    /**
+     * Creates a new instance of Display
+     */
     public Display() {
+
     }
+
     public void updateDisplay() {
         display = javax.microedition.lcdui.Display.getDisplay(JimmMidlet.getMidlet());
         nativeCanvas = new NativeCanvas();
     }
+
     public javax.microedition.lcdui.Display getNativeDisplay() {
         return display;
     }
+
     private boolean isSystem(Object screen) {
         if (screen instanceof InputTextBox) {
             return true;
         }
-        if (screen instanceof Displayable) {
-            return true;
-        }
-        return false;
+        return screen instanceof Displayable;
     }
+
     public boolean isPaused() {
         if (isSystem(getCurrentDisplay())) {
             return false;
@@ -62,6 +69,7 @@ public class Display {
         Displayable d = display.getCurrent();
         return (null == d) || !d.isShown();
     }
+
     public boolean isShown(Displayable d) {
         Displayable c = display.getCurrent();
         return (c == d) && c.isShown();
@@ -70,23 +78,27 @@ public class Display {
     public void hide() {
         display.setCurrent(null);
     }
+
     public void hideIfNeed() {
         Displayable c = display.getCurrent();
         if ((null != c) && !c.isShown()) {
             hide();
         }
     }
+
     public Object getCurrentDisplay() {
         return currentScreen;
     }
+
     private void setCurrentDisplay(Object o) {
+        Log.d("init", "Display:setCurrentDisplay");
         final Object prev = currentScreen;
         currentScreen = o;
         if ((o != prev) && (null != prev)) {
             nativeCanvas.stopKeyRepeating();
 
             if (prev instanceof DisplayableEx) {
-                ((DisplayableEx)prev).closed();
+                ((DisplayableEx) prev).closed();
             }
             // #sijapp cond.if modules_TOUCH is "true" #
             if ((prev instanceof CanvasEx) && (o instanceof CanvasEx)) {
@@ -104,17 +116,17 @@ public class Display {
             d = nativeCanvas;
 
         } else if (o instanceof InputTextBox) {
-            d = ((InputTextBox)o).getBox();
+            d = ((InputTextBox) o).getBox();
 
         } else if (o instanceof Displayable) {
-            d = (Displayable)o;
+            d = (Displayable) o;
         }
 
         if (d instanceof Canvas) {
-            ((Canvas)d).setFullScreenMode(true);
+            ((Canvas) d).setFullScreenMode(true);
         }
         if (o instanceof DisplayableEx) {
-            ((DisplayableEx)o).restoring();
+            ((DisplayableEx) o).restoring();
         }
         // #sijapp cond.if modules_LIGHT is "true" #
         //if (!(o instanceof CanvasEx)) {
@@ -123,13 +135,13 @@ public class Display {
         // #sijapp cond.end#
 
         if (o instanceof CanvasEx) {
-            nativeCanvas.setCanvas((CanvasEx)o);
+            nativeCanvas.setCanvas((CanvasEx) o);
 
             // #sijapp cond.if modules_ANDROID isnot "true" #
-            if ((prev instanceof CanvasEx) && isShown(nativeCanvas)) {
-                nativeCanvas.invalidate((CanvasEx)o);
-                return;
-            }
+            //if ((prev instanceof CanvasEx) && isShown(nativeCanvas)) {
+            //    nativeCanvas.invalidate((CanvasEx) o);
+            //    return;
+            //}
             // #sijapp cond.end#
         }
         display.setCurrent(d);
@@ -150,6 +162,7 @@ public class Display {
             setCurrentDisplay(pop());
         }
     }
+
     public synchronized void closeMenus() {
         Object o = currentScreen;
         while (o instanceof jimmui.view.menu.Select) {
@@ -157,6 +170,7 @@ public class Display {
         }
         setCurrentDisplay(o);
     }
+
     public synchronized void restore(Object o) {
         int index = Util.getIndex(stack, o);
         if (0 <= index) {
@@ -165,20 +179,24 @@ public class Display {
         }
         setCurrentDisplay(o);
     }
+
     public synchronized void show(Object o) {
         if (null != currentScreen) {
             push(currentScreen);
         }
         setCurrentDisplay(o);
     }
+
     public synchronized void showMain(DisplayableEx o) {
         stack.removeAllElements();
         main = o;
         setCurrentDisplay(o);
     }
+
     public DisplayableEx getMain() {
         return main;
     }
+
     public synchronized void showTop(DisplayableEx o) {
         stack.removeAllElements();
         setCurrentDisplay(o);
@@ -187,6 +205,7 @@ public class Display {
     public synchronized void pushWindow(Menu c) {
         pushWindow((CanvasEx) c);
     }
+
     public synchronized void pushWindow(CanvasEx c) {
         Object old = currentScreen;
         if (null != old) {
@@ -196,11 +215,13 @@ public class Display {
         // setup without showing
         currentScreen = c;
     }
+
     private Object pop() {
         Object top = stack.lastElement();
         stack.removeElementAt(stack.size() - 1);
         return top;
     }
+
     private void push(Object o) {
         stack.addElement(o);
     }
@@ -249,6 +270,7 @@ public class Display {
     public int getScreenWidth() {
         return nativeCanvas.getWidth();
     }
+
     public int getScreenHeight() {
         return nativeCanvas.getHeight();
     }

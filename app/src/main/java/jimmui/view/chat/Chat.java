@@ -31,6 +31,10 @@
  */
 package jimmui.view.chat;
 
+import android.util.Log;
+
+import java.util.Arrays;
+
 import jimmui.model.chat.ChatModel;
 import jimmui.view.base.touch.*;
 import jimmui.view.icons.Icon;
@@ -44,6 +48,7 @@ public final class Chat extends SomeContentList {
     ///////////////////////////////////////////
     // #sijapp cond.if modules_ANDROID is "true"#
     protected void sizeChanged(int prevW, int prevH, int w, int h) {
+        Log.d("init", "Chat Screen:sizeChanged");
         try {
             if (this == Jimm.getJimm().getDisplay().getNativeCanvas().getInput().getOwner()) {
                 super.sizeChanged(prevW, prevH, w, h);
@@ -56,6 +61,7 @@ public final class Chat extends SomeContentList {
     ///////////////////////////////////////////
     public Chat(ChatModel model) {
         super(null);
+        Log.d("init", "Chat Screen");
         content = new ChatContent(this, model);
         this.model = model;
         bar.setCaption(model.getContact().getName());
@@ -72,9 +78,7 @@ public final class Chat extends SomeContentList {
     // #sijapp cond.end#
 
     protected void updateStatusIcons() {
-        for (int i = 0; i < statusIcons.length; ++i) {
-            statusIcons[i] = null;
-        }
+        Arrays.fill(statusIcons, null);
         model.getContact().getLeftIcons(statusIcons);
         bar.setImages(statusIcons);
     }
@@ -86,18 +90,19 @@ public final class Chat extends SomeContentList {
     public static final String ADDRESS = ", ";
 
     public final void writeMessage(String initText) {
+        Log.d("init", "Chat Screen:writeMessage");
         if (model.writable) {
             // #sijapp cond.if modules_ANDROID is "true" #
-            if (true) {
+            //if (true) {
                 activate();
                 Jimm.getJimm().getDisplay().getNativeCanvas().getInput().setText(initText);
-                return;
-            }
+                //return;
+            //}
             // #sijapp cond.end #
-            MessageEditor editor = Jimm.getJimm().getMessageEditor();
-            if (null != editor) {
-                editor.writeMessage(model.getProtocol(), model.getContact(), initText);
-            }
+            //MessageEditor editor = Jimm.getJimm().getMessageEditor();
+            //if (null != editor) {
+            //    editor.writeMessage(model.getProtocol(), model.getContact(), initText);
+            //}
         }
     }
 

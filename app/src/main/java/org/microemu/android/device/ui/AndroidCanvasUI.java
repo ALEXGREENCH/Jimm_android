@@ -28,6 +28,7 @@ package org.microemu.android.device.ui;
 
 import javax.microedition.lcdui.Canvas;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import jimmui.view.chat.Chat;
@@ -44,13 +45,11 @@ public class AndroidCanvasUI extends AndroidDisplayableUI<Canvas> implements Can
 
     public AndroidCanvasUI(final MicroEmulatorActivity activity, Canvas canvas) {
         super(activity, canvas);
-        activity.post(new Runnable() {
-            public void run() {
-                canvasView = new CanvasView(activity, AndroidCanvasUI.this, 666);
-                input = new Input(activity, null, R.id.input_line);
-                input.setVisibility(View.INVISIBLE);
-                view = createView(canvasView, input);
-            }
+        activity.post(() -> {
+            canvasView = new CanvasView(activity, AndroidCanvasUI.this, 666);
+            input = new Input(activity, null, R.id.input_line);
+            input.setVisibility(View.INVISIBLE);
+            view = createView(canvasView, input);
         });
     }
     private View createView(CanvasView canvas, Input input) {
@@ -80,18 +79,16 @@ public class AndroidCanvasUI extends AndroidDisplayableUI<Canvas> implements Can
 
     @Override
     public void showNotify() {
-
-        activity.post(new Runnable() {
-            public void run() {
-                activity.setContentView(view);
-                canvasView.requestFocus();
-                ((AndroidDeviceDisplay) activity.getEmulatorContext().getDeviceDisplay()).addDisplayRepaintListener(canvasView);
-                displayable.repaint();
-            }
+        activity.post(() -> {
+            activity.setContentView(view);
+            canvasView.requestFocus();
+            ((AndroidDeviceDisplay) activity.getEmulatorContext().getDeviceDisplay()).addDisplayRepaintListener(canvasView);
+            displayable.repaint();
         });
     }
 
     public Input getInput() {
+        Log.d("init", "AndroidCanvasUI: getInput");
         return input;
     }
 
@@ -99,24 +96,22 @@ public class AndroidCanvasUI extends AndroidDisplayableUI<Canvas> implements Can
         if ((null == chat) && (null != input)) {
             input.resetOwner();
         }
-        activity.post(new Runnable() {
-            public void run() {
-                boolean prevV = (input.getVisibility() == View.VISIBLE);
-                input.setVisibility(v ? View.VISIBLE : View.GONE);
-                if (null != chat) {
-                    input.setOwner(chat);
-                }
-                view.requestLayout();
-                if (v && input.hasText()) {
-                    input.showKeyboard();
-                } else {
-                    canvasView.requestFocus();
-                    if ((prevV && !v) || !input.hasText()) {
-                        input.hideKeyboard(view);
-                    }
-                }
-
+        activity.post(() -> {
+            boolean prevV = (input.getVisibility() == View.VISIBLE);
+            input.setVisibility(v ? View.VISIBLE : View.GONE);
+            if (null != chat) {
+                input.setOwner(chat);
             }
+            view.requestLayout();
+            if (v && input.hasText()) {
+                input.showKeyboard();
+            } else {
+                canvasView.requestFocus();
+                if ((prevV && !v) || !input.hasText()) {
+                    input.hideKeyboard(view);
+                }
+            }
+
         });
     }
     public void layout() {

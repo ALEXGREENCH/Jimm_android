@@ -25,6 +25,7 @@
 
 package ru.net.jimm;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.os.*;
@@ -62,9 +63,10 @@ public class JimmActivity extends MicroEmulatorActivity {
 
     private boolean isVisible = false;
 
+    @SuppressLint("StaticFieldLeak")
     private static JimmActivity instance;
 
-    private NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+    private final NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
 
     private boolean ignoreBackKeyUp = false;
 
@@ -124,14 +126,7 @@ public class JimmActivity extends MicroEmulatorActivity {
         super.onResume();
         isVisible = true;
         Log.i(LOG_TAG, "onResume();");
-        new Thread(new Runnable() {
-
-            public void run()
-            {
-                MIDletStart();
-            }
-
-        }).start();
+        new Thread(this::MIDletStart).start();
     }
 
     public final boolean isVisible() {
@@ -366,11 +361,7 @@ public class JimmActivity extends MicroEmulatorActivity {
         try {
             MIDletBridge.getMIDletAccess().startApp();
             if (contentView != null) {
-                post(new Runnable() {
-                    public void run() {
-                        contentView.invalidate();
-                    }
-                });
+                post(() -> contentView.invalidate());
             }
         } catch (Exception e) {
             error(e);
