@@ -125,10 +125,10 @@ public final class SysTextList extends TextListController {
         m.addItem("reset", SysTextList.MENU_RESET);
         // #sijapp cond.end #
         // #sijapp cond.if modules_DEBUGLOG is "true" #
-        m.addItem("debug log", MENU_DEBUGLOG);
+        m.addItem("debug_log", MENU_DEBUGLOG);
         // #sijapp cond.end#
         // #sijapp cond.if modules_MAGIC_EYE is "true" #
-        m.addItem("magic eye", MENU_MAGIC_EYE);
+        m.addItem("magic_eye", MENU_MAGIC_EYE);
         // #sijapp cond.end#
         m.setActionListener(this);
         setMenu(m, MENU_OPENURL);

@@ -303,7 +303,7 @@
     <string name="status_na">Not Available</string>
     <string name="status_occupied">Occupied</string>
     <string name="status_offline">Offline</string>
-    <string name="status_online">"Online</string>
+    <string name="status_online">Online</string>
     <string name="status_home">At Home</string>
     <string name="status_work">At Work</string>
     <string name="status_evil">Evil</string>
@@ -362,7 +362,7 @@
 
 
 
-    <string name="kbs">kb/s"</string>
+    <string name="kbs">kb/s</string>
     <string name="speed">Speed</string>
     <string name="filetransfer">File transfer</string>
     <string name="was">was</string>
@@ -457,7 +457,7 @@
     <!-- TODO: !!! read xtraz -->
     <string name="read_xtraz">Reading your Xtraz message</string>
     <string name="get_time">Requests your local time</string>
-    <string name="get_version">"Requests your client version</string>
+    <string name="get_version">Requests your client version</string>
 
     <string name="antispam">Antispam</string>
     <string name="antispam_msg">Question</string>

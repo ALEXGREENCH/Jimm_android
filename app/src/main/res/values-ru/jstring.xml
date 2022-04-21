@@ -227,10 +227,10 @@
     <string name="plsauthme">Hi! Please authorise my request to add you to my contact list.</string>
     <string name="popup_win">Popup window</string>
     <string name="popup_win_over_system">Popup over system windows</string>
-    <string name="position">Position</string>
+    <string name="position">Должность</string>
     <string name="protocol">Протокол</string>
     <string name="pw_forme">For current chat</string>
-    <string name="pw_all">All</string>
+    <string name="pw_all">Все сообщения</string>
     <!-- TODO: !!! put down -->
     <string name="put_down">Put down</string>
     <string name="quote">Quote</string>
@@ -303,7 +303,7 @@
     <string name="status_na">Недоступен</string>
     <string name="status_occupied">Занят</string>
     <string name="status_offline">Оффлайн</string>
-    <string name="status_online">"Онлайн</string>
+    <string name="status_online">Онлайн</string>
     <string name="status_home">Дома</string>
     <string name="status_work">На работе</string>
     <string name="status_evil">Злой</string>
@@ -340,8 +340,8 @@
     <string name="vibration">Vibration</string>
     <string name="viewfinder">Viewfinder</string>
     <string name="volume">Volume</string>
-    <string name="wait">Please wait ...</string>
-    <string name="wake">Wake</string>
+    <string name="wait">Пожалуйста, ждите…</string>
+    <string name="wake">Разбудить</string>
     <string name="wake_up">tried to wake interlocutor</string>
     <string name="wake_you_up">tried to wake You</string>
     <string name="was_baned">was baned</string>
@@ -350,7 +350,7 @@
     <string name="warning">Warning</string>
     <string name="wantsyourauth"> wants your Authorization</string>
     <string name="work_info">Work</string>
-    <string name="yes">Yes</string>
+    <string name="yes">Да</string>
     <string name="youwereadded">You were added: </string>
     <string name="you_was_baned">You was baned</string>
     <string name="you_was_kicked">You was kicked</string>
@@ -362,12 +362,12 @@
 
 
 
-    <string name="kbs">kb/s"</string>
-    <string name="speed">Speed</string>
-    <string name="filetransfer">File transfer</string>
-    <string name="was">was</string>
-    <string name="not">not</string>
-    <string name="successful">Successful</string>
+    <string name="kbs">КБ/сек</string>
+    <string name="speed">Скорость</string>
+    <string name="filetransfer">Передача файла</string>
+    <string name="was">была</string>
+    <string name="not">без</string>
+    <string name="successful">успешной</string>
     <string name="error_180">Error creating the VideoControl</string>
     <string name="error_181">Viewfinder initialization error</string>
     <string name="error_182">Viewfinder start error</string>
@@ -449,15 +449,15 @@
     <string name="light_always_min">Min always</string>
 
     <!-- TODO: !!! magic eye -->
-    <string name="magic_eye">Magic eye</string>
-    <string name="hiding_from_you">Hiding from you</string>
-    <string name="typing">Typing</string>
+    <string name="magic_eye">Всевидящее око</string>
+    <string name="hiding_from_you">Был замечен скрывающимся</string>
+    <string name="typing">Печатает сообщение</string>
     <!-- TODO: !!! read status message -->
     <string name="read_status_message">Reading your status message</string>
     <!-- TODO: !!! read xtraz -->
     <string name="read_xtraz">Reading your Xtraz message</string>
-    <string name="get_time">Requests your local time</string>
-    <string name="get_version">"Requests your client version</string>
+    <string name="get_time">Читает Ваше локальное время</string>
+    <string name="get_version">Читает версию клиента</string>
 
     <string name="antispam">Antispam</string>
     <string name="antispam_msg">Question</string>
@@ -466,42 +466,42 @@
     <string name="antispam_keywords">Stop words list</string>
     <string name="cut_offline">Cut offline messages</string>
 
-    <string name="error_100">Unknown error</string>
+    <string name="error_100">Неизвестная ошибка</string>
 
-    <string name="error_110">Multiple logins</string>
-    <string name="error_111">Bad password</string>
-    <string name="error_112">Non-existant UIN</string>
-    <string name="error_113">Too many clients from same IP</string>
-    <string name="error_114">Rate exceeded</string>
-    <string name="error_118">No response from server</string>
+    <string name="error_110">Множественный вход</string>
+    <string name="error_111">Неверный пароль</string>
+    <string name="error_112">Несуществующий UIN</string>
+    <string name="error_113">Слишком много клиентов с одного IP</string>
+    <string name="error_114">Попытки исчерпаны</string>
+    <string name="error_118">Сервер не отвечает</string>
 
-    <string name="error_120">An I/O error occured</string>
-    <string name="error_121">Requested TCP connection cannot be made</string>
-    <string name="error_122">Specified server host and/or port is invalid</string>
-    <string name="error_123">Connection prohibited</string>
-    <string name="error_124">Input stream is out of sync</string>
+    <string name="error_120">Произошла ошибка ввода-вывода</string>
+    <string name="error_121">Требуемое TCP-соединение неосуществимо</string>
+    <string name="error_122">Указанный сервер и/или порт некорректны</string>
+    <string name="error_123">Подключение запрещено</string>
+    <string name="error_124">Входной поток не синхронизован</string>
 
-    <string name="error_125">An I/O error occured</string>
-    <string name="error_126">Requested TCP connection cannot be made</string>
-    <string name="error_127">Specified server host and/or port is invalid</string>
-    <string name="error_128">Connection has not been established</string>
+    <string name="error_125">При передаче данных произошла ошибка</string>
+    <string name="error_126">TCP-соединение не может быть установлено</string>
+    <string name="error_127">Указаны некорректные значения сервера или порта</string>
+    <string name="error_128">Соединение не может быть установлено</string>
 
-    <string name="error_132">Connect channel packet  could not be parsed</string>
-    <string name="error_135">Disconnect channel packet could not be parsed</string>
+    <string name="error_132">Пакет подсоединённого канала не обработан</string>
+    <string name="error_135">Пакет отсоединённого канала не обработан</string>
 
-    <string name="error_140">Requested action cannot be queued for execution at this time</string>
+    <string name="error_140">Требуемое действие не может быть выполнено в данное время</string>
 
-    <string name="error_154">Error updating your contact list</string>
-    <string name="error_155">Object is already in your server list</string>
-    <string name="error_156">Error while adding. Try again</string>
-    <string name="error_157">No more elements of this type allowed</string>
-    <string name="error_158">You did try to add an ICQ contact to an AIM list</string>
-    <string name="error_159">Server did not answer on search request. Try again</string>
+    <string name="error_154">Ошибка обновления списка пользователей</string>
+    <string name="error_155">Объект уже находится в списке на сервере</string>
+    <string name="error_156">Ошибка добавления. Попробуйте снова</string>
+    <string name="error_157">Разрешено не больше количество элементов этого типа</string>
+    <string name="error_158">Вы совершили попытку добавить пользователя ICQ в спиок AIM</string>
+    <string name="error_159">Сервер не отвечает на запрос поиска. Попробуйте снова</string>
 
-    <string name="error_160">Error while searching</string>
+    <string name="error_160">Ошибка поиска</string>
 
-    <string name="error_170">Possibly not enough heap memory available</string>
-    <string name="error_171">Could not fetch meta info</string>
-    <string name="error_172">Error while saving the options</string>
+    <string name="error_170">Возможно, недостаточно памяти</string>
+    <string name="error_171">Невозможно получить мета информацию</string>
+    <string name="error_172">Ошибка при сохранении настроек</string>
 
 </resources>

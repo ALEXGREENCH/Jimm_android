@@ -68,7 +68,7 @@ public class OptionsForm implements FormListener, ControlStateListener, SelectLi
             + "|" + "sound_off"
             // #sijapp cond.end#
             // #sijapp cond.if modules_MAGIC_EYE is "true" #
-            + "|" + "magic eye"
+            + "|" + "magic_eye"
             // #sijapp cond.end#
             // #sijapp cond.if modules_FILES is "true"#
             + "|" + "ft_cam"

@@ -941,7 +941,7 @@ public final class IcqNetDefActions {
 
         // #sijapp cond.if modules_MAGIC_EYE is "true" #
         if (xml.startsWith("<N>")) {
-            MagicEye.addAction(icq, uin, "read xtraz");
+            MagicEye.addAction(icq, uin, "read_xtraz");
         }
         // #sijapp cond.end #
 
