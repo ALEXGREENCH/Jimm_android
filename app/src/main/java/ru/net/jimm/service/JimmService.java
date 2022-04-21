@@ -23,7 +23,6 @@ import org.bombusmod.scrobbler.MusicReceiver;
 import jimm.Jimm;
 import jimm.cl.JimmModel;
 import jimmui.model.chat.ChatModel;
-import protocol.Protocol;
 import protocol.ProtocolHelper;
 import ru.net.jimm.JimmActivity;
 import ru.net.jimm.R;
@@ -157,7 +156,7 @@ public class JimmService extends Service {
 
             Notification.Builder notificationBuilder = new Notification.Builder(this, CHANNEL_ID);
             notificationBuilder.setSmallIcon(icon)
-                    .setContentTitle("Jimm!")
+                    .setContentTitle(getString(R.string.app_name))
                     .setContentText(stateMsg);
                     //.setPriority(Notification.PRIORITY_MAX);
 
@@ -184,7 +183,7 @@ public class JimmService extends Service {
                 tray.startForegroundCompat(R.string.app_name, getNotification());
                 break;
             case CONNECT:
-                ProtocolHelper.connect((Protocol) jimmModel.protocols.elementAt(msg.arg1));
+                ProtocolHelper.connect(jimmModel.protocols.elementAt(msg.arg1));
                 break;
             case STARTED:
                 jimmModel = Jimm.getJimm().jimmModel;
