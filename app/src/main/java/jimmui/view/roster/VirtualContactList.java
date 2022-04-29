@@ -115,7 +115,7 @@ public final class VirtualContactList extends SomeContentList {
 
     //Updates the title of the list
     public void updateTitle() {
-        String text = "KICQ";
+        String text = "Jimm KICQ";
         if (((RosterContent)content).getModel() == getUpdater().getChatModel()) {
             text = JLocale.getString("chats");
         }

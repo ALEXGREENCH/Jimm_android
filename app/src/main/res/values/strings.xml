@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">KICQ</string>
+    <string name="app_name">Jimm ICQ</string>
     <string name="notifyTitle">You have new messages…</string>
     <string name="notifyInfo">Unread messages: %d</string>
     <string name="unreadMessages">Unread messages: %d</string>

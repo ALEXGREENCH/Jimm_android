@@ -255,7 +255,7 @@ public final class SplashCanvas extends CanvasEx {
             // Display splash image (or text)
             g.setThemeColor(THEME_SPLASH_LOGO_TEXT);
             g.setFont(logoFont);
-            g.drawString("Jimm Multi", width / 2, height / 2 + 5, Graphics.HCENTER | Graphics.BASELINE);
+            g.drawString("Jimm KICQ", width / 2, height / 2 + 5, Graphics.HCENTER | Graphics.BASELINE);
             g.setFont(font);
 
             // Draw the date
