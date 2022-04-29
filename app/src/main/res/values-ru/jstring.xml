@@ -11,7 +11,7 @@
     <string name="sunday">Воскресенье</string>
 
     <string name="about">О программе</string>
-    <string name="about_info">Jimm - Мобильный IM-клиент.\n\nВерсия 0.7.1m от 21.04.2022.\nМодули: ANDROID\n\nCайт проекта: http://kicq.ru//</string>
+    <string name="about_info">Jimm - Мобильный IM-клиент.\n\nВерсия 0.7.1m от 30.04.2022.\nМодули: ANDROID, ZLIB, MULTI, DEBUGLOG, SMILES, TRAFFIC, HISTORY, PROXY, CLIENTS, XSTATUSES, SERVERLISTS, MAGIC_EYI, ANTISPAM, FILES, STYLUS, SOUND \n\nCайт проекта: http://kicq.ru//</string>
     <string name="absence">Отсутствие</string>
     <string name="accounts">Учетные записи</string>
     <string name="add_from_fs">Загрузить файл</string>

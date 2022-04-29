@@ -11,7 +11,7 @@
     <string name="sunday">Sunday</string>
 
     <string name="about">About</string>
-    <string name="about_info">Jimm Is Mobile Messenger.\n\nBuild: 0.7.1m from 21.04.2022.\nModules: ANDROID\n\nProject site: http://jimm.net.ru/</string>
+    <string name="about_info">Jimm Is Mobile Messenger.\n\n</string>
     <string name="absence">Absence</string>
     <string name="accounts">Accounts</string>
     <string name="add_from_fs">Add from FS</string>

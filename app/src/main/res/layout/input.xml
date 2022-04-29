@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/InputBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/input_editor">
 
-    <LinearLayout
-        style="@style/InputBar.Editor"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <ImageView
+        android:id="@+id/input_smile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/input_smile_button" />
 
-        <ImageButton
-            android:id="@+id/input_smile_button"
-            style="@style/InputBar.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/input_smile_button" />
+    <EditText
+        android:id="@+id/messageText"
+        style="@style/InputBar.EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center|left"
+        android:layout_weight="0.87"
+        android:hint="@string/hint_message" />
 
-        <EditText
-            android:id="@+id/messageText"
-            style="@style/InputBar.EditText"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center|left"
-            android:layout_weight="0.87"
-            android:hint="@string/hint_message" />
+    <ImageView
+        android:id="@+id/input_send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/input_send_button" />
 
-        <ImageButton
-            android:id="@+id/input_send_button"
-            style="@style/InputBar.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/input_send_button" />
-
-    </LinearLayout>
 </LinearLayout>

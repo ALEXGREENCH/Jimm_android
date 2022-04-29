@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -72,15 +73,15 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
                 .getLayoutInflater()
                 .inflate(layout, this, true);
 
-        messageEditor = (EditText) findViewById(R.id.messageText);
+        messageEditor = findViewById(R.id.messageText);
         messageEditor.setInputType(InputType.TYPE_CLASS_TEXT
                 | InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
-        ImageButton smileButton = (ImageButton) findViewById(R.id.input_smile_button);
+        ImageView smileButton = findViewById(R.id.input_smile_button);
         smileButton.setOnClickListener(this);
         smileButton.setOnLongClickListener(this);
-        ImageButton sendButton = (ImageButton) findViewById(R.id.input_send_button);
+        ImageView sendButton = findViewById(R.id.input_send_button);
         sendByEnter = (null == sendButton);
         if (null != sendButton) {
             sendButton.setOnClickListener(view -> send());

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="InputBar" parent="@android:style/ButtonBar">
         <item name="android:paddingTop">5dp</item>
@@ -15,7 +15,7 @@
         <item name="android:verticalSpacing">0dp</item>
         <item name="android:background">@drawable/input_editor</item>
     </style>
-    <style name="InputBar.Button" parent="@android:Widget.Button">
+    <style name="InputBar.Button" parent="@android:Widget.Button" tools:ignore="ResourceCycle">
         <item name="android:padding">2dp</item>
         <item name="android:clickable">true</item>
         <item name="android:background">@drawable/input_button</item>
