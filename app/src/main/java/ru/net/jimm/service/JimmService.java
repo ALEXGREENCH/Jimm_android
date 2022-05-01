@@ -20,6 +20,9 @@ import android.util.Log;
 
 import org.bombusmod.scrobbler.MusicReceiver;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import jimm.Jimm;
 import jimm.cl.JimmModel;
 import jimmui.model.chat.ChatModel;
@@ -105,12 +108,21 @@ public class JimmService extends Service {
                 stateMsg = String.format((String) getText(R.string.unreadMessages), allUnread);
             }
 
-            //todo: !!!!!!!!!!
-            //notification.setLatestEventInfo(this, getText(R.string.app_name), stateMsg, contentIntent);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                // new
+                notification.contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
+                notification.tickerText = stateMsg;
+            }else {
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
 
-            // new
-            notification.contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, JimmActivity.class), 0);
-            notification.tickerText = stateMsg;
+                try {
+                    Method deprecatedMethod = notification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                    deprecatedMethod.invoke(notification, this, getText(R.string.app_name), stateMsg, pendingIntent);
+                } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException
+                        | InvocationTargetException e) {
+                    Log.w("TAG", "Method not found", e);
+                }
+            }
 
             notification.defaults = 0;
             if (0 < unread) {
