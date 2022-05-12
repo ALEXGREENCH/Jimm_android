@@ -1,8 +1,11 @@
 package ru.net.jimm.photo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Camera;
-import android.hardware.Camera.*;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.Size;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -13,6 +16,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
     private int width;
     private int height;
 
+    @SuppressLint("NewApi")
     Preview(Context context, int width, int height) {
         super(context);
         this.width = width;
@@ -63,6 +67,8 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
         jimm.modules.DebugLog.println("_ " + pref.width + " " + pref.height + " " + w + " " + h);
         return pref;
     }
+
+    @SuppressLint("NewApi")
     private void setParameters(List<Size> preview, List<Size> picture, int w, int h) {
         Parameters parameters = camera.getParameters();
         parameters.set("orientation", "portrait");
@@ -74,6 +80,8 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
         parameters.setFocusMode(Parameters.FOCUS_MODE_AUTO);
         camera.setParameters(parameters);
     }
+
+    @SuppressLint("NewApi")
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         // Now that the size is known, set up the camera parameters and begin
         // the preview.
@@ -102,6 +110,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
             jimm.modules.DebugLog.panic("surfaceChanged camera", e);
         }
     }
+
     public void takePicture(final PictureCallback jpegCallback) {
         if (null == camera) return;
         camera.takePicture(null, null, jpegCallback);
@@ -114,6 +123,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
             return null;
         }
     }
+
     public void destroyCamera() {
         if (null == camera) return;
         try {

@@ -1,6 +1,7 @@
 package ru.net.jimm.client;
 
 import android.os.Message;
+
 import jimm.Jimm;
 import protocol.Protocol;
 import ru.net.jimm.service.JimmService;
@@ -19,9 +20,11 @@ public class JimmServiceCommands {
     public void updateAppIcon() {
         connection.send(Message.obtain(null, JimmService.UPDATE_APP_ICON));
     }
+
     public void updateConnectionState() {
         connection.send(Message.obtain(null, JimmService.UPDATE_CONNECTION_STATUS));
     }
+
     public void connect(Protocol p) {
         int protocolIndex = Jimm.getJimm().jimmModel.protocols.indexOf(p);
         jimm.modules.DebugLog.println("connect to " + p.getUserId() + " " + protocolIndex);
@@ -33,6 +36,7 @@ public class JimmServiceCommands {
     public void started() {
         connection.send(Message.obtain(null, JimmService.STARTED));
     }
+
     public void quit() {
         connection.send(Message.obtain(null, JimmService.QUIT));
     }

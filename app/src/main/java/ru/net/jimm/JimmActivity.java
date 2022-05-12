@@ -1,26 +1,25 @@
 /**
- *  MicroEmulator
- *  Copyright (C) 2008 Bartek Teodorczyk <barteo@barteo.net>
- *
- *  It is licensed under the following two licenses as alternatives:
- *    1. GNU Lesser General Public License (the "LGPL") version 2.1 or any newer version
- *    2. Apache License (the "AL") Version 2.0
- *
- *  You may not use this file except in compliance with at least one of
- *  the above two licenses.
- *
- *  You may obtain a copy of the LGPL at
- *      http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
- *
- *  You may obtain a copy of the AL at
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the LGPL or the AL for the specific language governing permissions and
- *  limitations.
- *
+ * MicroEmulator
+ * Copyright (C) 2008 Bartek Teodorczyk <barteo@barteo.net>
+ * <p>
+ * It is licensed under the following two licenses as alternatives:
+ * 1. GNU Lesser General Public License (the "LGPL") version 2.1 or any newer version
+ * 2. Apache License (the "AL") Version 2.0
+ * <p>
+ * You may not use this file except in compliance with at least one of
+ * the above two licenses.
+ * <p>
+ * You may obtain a copy of the LGPL at
+ * http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+ * <p>
+ * You may obtain a copy of the AL at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the LGPL or the AL for the specific language governing permissions and
+ * limitations.
  */
 
 package ru.net.jimm;
@@ -28,30 +27,40 @@ package ru.net.jimm;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
-import android.os.*;
-import android.view.*;
+import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.Window;
+
+import org.microemu.DisplayAccess;
+import org.microemu.MIDletAccess;
+import org.microemu.MIDletBridge;
+import org.microemu.android.MicroEmulatorActivity;
+import org.microemu.android.device.AndroidDevice;
+import org.microemu.android.device.AndroidInputMethod;
+import org.microemu.android.device.ui.AndroidCanvasUI;
+import org.microemu.android.device.ui.AndroidCommandUI;
+import org.microemu.android.device.ui.AndroidDisplayableUI;
+import org.microemu.android.device.ui.AndroidTextBoxUI;
+import org.microemu.android.device.ui.Commands;
+import org.microemu.android.util.AndroidRecordStoreManager;
+import org.microemu.app.Common;
+import org.microemu.cldc.file.FileSystem;
+import org.microemu.device.Device;
+import org.microemu.device.DeviceFactory;
+import org.microemu.device.ui.CommandUI;
+
 import jimm.Jimm;
 import jimm.JimmMidlet;
 import jimmui.view.base.KeyEmulator;
 import jimmui.view.base.NativeCanvas;
 import jimmui.view.menu.Select;
-import org.microemu.DisplayAccess;
-import org.microemu.MIDletAccess;
-import org.microemu.MIDletBridge;
-import org.microemu.android.device.AndroidDevice;
-import org.microemu.android.device.AndroidInputMethod;
-import org.microemu.android.device.ui.*;
-import org.microemu.android.util.AndroidRecordStoreManager;
-import org.microemu.app.Common;
-import org.microemu.device.Device;
-import org.microemu.device.DeviceFactory;
-import org.microemu.device.ui.CommandUI;
-
-import android.media.AudioManager;
-import org.microemu.android.MicroEmulatorActivity;
-import android.content.Intent;
-import android.util.Log;
-import org.microemu.cldc.file.FileSystem;
 import ru.net.jimm.client.JimmServiceCommands;
 
 public class JimmActivity extends MicroEmulatorActivity {
@@ -131,7 +140,7 @@ public class JimmActivity extends MicroEmulatorActivity {
 
     public final boolean isVisible() {
         if (isVisible) {
-            KeyguardManager keyguardManager = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
+            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             return !keyguardManager.inKeyguardRestrictedInputMode();
         }
         return false;
@@ -140,8 +149,8 @@ public class JimmActivity extends MicroEmulatorActivity {
     @Override
     protected void onDestroy() {
         Jimm.getJimm().releaseUI();
-// TODO: hide
-//        if (null != Jimm.getJimm()) Jimm.getJimm().quit();
+        // TODO: hide
+        //        if (null != Jimm.getJimm()) Jimm.getJimm().quit();
         Log.i(LOG_TAG, "onDestroy();");
         super.onDestroy();
     }
@@ -159,7 +168,6 @@ public class JimmActivity extends MicroEmulatorActivity {
         Log.i(LOG_TAG, "onStop();");
         super.onStop();
     }
-
 
 
     @Override
@@ -210,18 +218,18 @@ public class JimmActivity extends MicroEmulatorActivity {
 
     private boolean ignoreKey(int keyCode) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
-            case KeyEvent.KEYCODE_VOLUME_UP:
-            case KeyEvent.KEYCODE_HEADSETHOOK:
-                return true;
             case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_BACK:
                 return false;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_HEADSETHOOK:
             default:
                 return true;
         }
     }
 
+    @SuppressWarnings("rawtypes")
     private AndroidDisplayableUI getDisplayable() {
         MIDletAccess ma = MIDletBridge.getMIDletAccess();
         if (ma == null) {
@@ -233,7 +241,9 @@ public class JimmActivity extends MicroEmulatorActivity {
         }
         return (AndroidDisplayableUI) da.getDisplayableUI(da.getCurrent());
     }
+
     private Commands getCommandsUI() {
+        //noinspection rawtypes
         AndroidDisplayableUI ui = getDisplayable();
         if (ui == null) {
             return null;
@@ -259,7 +269,9 @@ public class JimmActivity extends MicroEmulatorActivity {
         if (cmd == null) {
             return;
         }
+        //noinspection rawtypes
         AndroidDisplayableUI ui = getDisplayable();
+        assert ui != null;
         if (ui.getCommandListener() != null) {
             ignoreBackKeyUp = true;
             MIDletBridge.getMIDletAccess().getDisplayAccess().commandAction(cmd.getCommand(), ui.getDisplayable());
@@ -367,6 +379,7 @@ public class JimmActivity extends MicroEmulatorActivity {
             error(e);
         }
     }
+
     private void startService() {
         try {
             startService(new Intent(this, ru.net.jimm.service.JimmService.class));
@@ -376,6 +389,7 @@ public class JimmActivity extends MicroEmulatorActivity {
             error(e);
         }
     }
+
     public void notifyMIDletDestroyed() {
         try {
             unbindService(service.connection);

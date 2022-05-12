@@ -46,6 +46,7 @@ class IniBuilder {
     private static String escape(String s) {
         return s.replace("\\", "\\\\").replace("\n", "\\n");
     }
+
     private static String unescape(String s) {
         return s.replace("\\n", "\n").replace("\\\\", "\\");
     }

@@ -1,5 +1,6 @@
 package ru.net.jimm;
 
+import android.content.Context;
 import android.text.ClipboardManager;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,20 +24,18 @@ public class Clipboard {
     }
 
     public String get() {
-        final AtomicReference<String> text = new AtomicReference<String>();
+        final AtomicReference<String> text = new AtomicReference<>();
         text.set(null);
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(activity.CLIPBOARD_SERVICE);
-                    text.set(clipboard.hasText() ? clipboard.getText().toString() : null);
-                    synchronized (lock) {
-                        lock.notify();
-                    }
-                } catch (Throwable e) {
-                    jimm.modules.DebugLog.panic("get clipboard", e);
-                    // do nothing
+        activity.runOnUiThread(() -> {
+            try {
+                ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                text.set(clipboard.hasText() ? clipboard.getText().toString() : null);
+                synchronized (lock) {
+                    lock.notify();
                 }
+            } catch (Throwable e) {
+                jimm.modules.DebugLog.panic("get clipboard", e);
+                // do nothing
             }
         });
         if (!activity.isActivityThread()) try {
@@ -50,15 +49,13 @@ public class Clipboard {
     }
 
     public void put(final String text) {
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(activity.CLIPBOARD_SERVICE);
-                    clipboard.setText(text);
-                } catch (Throwable e) {
-                    jimm.modules.DebugLog.panic("set clipboard", e);
-                    // do nothing
-                }
+        activity.runOnUiThread(() -> {
+            try {
+                ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setText(text);
+            } catch (Throwable e) {
+                jimm.modules.DebugLog.panic("set clipboard", e);
+                // do nothing
             }
         });
     }

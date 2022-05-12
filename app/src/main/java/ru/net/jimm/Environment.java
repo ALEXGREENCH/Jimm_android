@@ -1,15 +1,17 @@
 package ru.net.jimm;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.provider.Settings;
+
 import org.microemu.android.util.AndroidLoggerAppender;
 import org.microemu.log.Logger;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Locale;
@@ -29,10 +31,10 @@ public class Environment {
 
         System.setOut(new PrintStream(new OutputStream() {
 
-            StringBuilder line = new StringBuilder();
+            final StringBuilder line = new StringBuilder();
 
             @Override
-            public void write(int oneByte) throws IOException {
+            public void write(int oneByte) {
                 if (((char) oneByte) == '\n') {
                     if (line.length() > 0) {
                         Logger.debug(line.toString());
@@ -47,10 +49,10 @@ public class Environment {
 
         System.setErr(new PrintStream(new OutputStream() {
 
-            StringBuilder line = new StringBuilder();
+            final StringBuilder line = new StringBuilder();
 
             @Override
-            public void write(int oneByte) throws IOException {
+            public void write(int oneByte) {
                 if (((char) oneByte) == '\n') {
                     if (line.length() > 0) {
                         Logger.debug(line.toString());
@@ -63,6 +65,7 @@ public class Environment {
 
         }));
     }
+
     public static void setup(Activity activity) {
         System.setProperty("microedition.platform", "microemu-android");
         System.setProperty("microedition.configuration", "CLDC-1.1");
@@ -89,11 +92,13 @@ public class Environment {
                 return false;
             }
             defValue = true;
-            return  1 == Settings.System.getInt(activity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION);
+            return 1 == Settings.System.getInt(activity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION);
         } catch (Throwable e) {
             return defValue;
         }
     }
+
+    @TargetApi(Build.VERSION_CODES.ECLAIR)
     private static boolean hasCamera(Activity activity) {
         try {
             return (activity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA));

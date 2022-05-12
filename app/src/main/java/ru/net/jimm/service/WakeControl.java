@@ -1,7 +1,9 @@
 package ru.net.jimm.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.PowerManager;
+
 import jimm.Jimm;
 import jimm.cl.JimmModel;
 
@@ -26,6 +28,7 @@ public class WakeControl {
         if (isHeld()) wakeLock.release();
         wakeLock = null;
     }
+
     public void updateLock() {
         JimmModel cl = Jimm.getJimm().jimmModel;
         boolean need = cl.isConnected() || cl.isConnecting();
@@ -37,6 +40,7 @@ public class WakeControl {
 
     }
 
+    @SuppressLint({"InvalidWakeLockTag", "WakelockTimeout"})
     private void acquire() {
         PowerManager powerManager = (PowerManager) service.getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, LOCK_TAG);

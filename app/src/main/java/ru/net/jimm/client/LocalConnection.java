@@ -1,9 +1,10 @@
 package ru.net.jimm.client;
 
-import android.content.*;
+import android.content.ComponentName;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+
 import ru.net.jimm.service.JimmService;
 
 /**
@@ -19,7 +20,7 @@ class LocalConnection implements Connection {
 
     public void onServiceConnected(ComponentName className, IBinder service) {
         if (service instanceof JimmService.LocalBinder) {
-            jimmService = ((JimmService.LocalBinder)service).getService();
+            jimmService = ((JimmService.LocalBinder) service).getService();
         } else {
             mService = new Messenger(service);
         }

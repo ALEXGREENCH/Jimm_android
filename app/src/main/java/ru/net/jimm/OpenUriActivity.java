@@ -25,16 +25,13 @@ public class OpenUriActivity extends Activity {
             final boolean delay = null == JimmActivity.getInstance();
             final Uri uri = intent.getData();
             startActivity(new Intent(this, JimmActivity.class));
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (delay) try {
-                        // has not started yet
-                        Thread.sleep(5000);
-                    } catch (Exception ignored) {
-                    }
-                    process(uri);
+            new Thread(() -> {
+                if (delay) try {
+                    // has not started yet
+                    Thread.sleep(5000);
+                } catch (Exception ignored) {
                 }
+                process(uri);
             }).start();
         }
     }
@@ -66,9 +63,9 @@ public class OpenUriActivity extends Activity {
             Contact c = xmpp.createTempContact(Jid.getBareJid(jid));
             while (xmpp.isConnecting()) {
                 try {
+                    //noinspection BusyWait
                     Thread.sleep(2000);
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) { }
             }
             xmpp.addTempContact(c);
             Jimm.getJimm().getCL().activate(c);

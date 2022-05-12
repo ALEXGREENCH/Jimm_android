@@ -17,8 +17,8 @@ import ru.net.jimm.R;
  * @author vladimir
  */
 public class ChatAdapter extends BaseAdapter {
-    private ChatModel chat;
-    private LayoutInflater layoutInflater;
+    private final ChatModel chat;
+    private final LayoutInflater layoutInflater;
     public ChatAdapter(Context context, ChatModel chat) {
         this.chat = chat;
         layoutInflater = LayoutInflater.from(context);

@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import jimm.Jimm;
-import jimm.cl.ContactList;
+import android.os.Build;
+
 import org.microemu.MIDletBridge;
+
+import java.util.Objects;
+
+import jimm.Jimm;
 import protocol.Protocol;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
@@ -16,9 +20,14 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     private boolean isNetworkAvailable = false;
 
     private boolean modeNotChanged(String networkType) {
-        return  (null == previousNetworkType)
-                ? (null == networkType)
-                : previousNetworkType.equals(networkType);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Objects.equals(previousNetworkType, networkType);
+        }else {
+            //noinspection EqualsReplaceableByObjectsCall
+            return (null == previousNetworkType)
+                    ? (null == networkType)
+                    : previousNetworkType.equals(networkType);
+        }
     }
 
     public IntentFilter getFilter() {

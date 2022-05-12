@@ -1,22 +1,25 @@
 package ru.net.jimm;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
-import jimm.FileTransfer;
-import jimm.history.HistoryStorage;
-import jimm.modules.photo.PhotoListener;
+
 import org.microemu.android.util.ActivityResultListener;
-import protocol.net.TcpSocket;
-import ru.net.jimm.photo.CameraActivity;
 
 import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import jimm.FileTransfer;
+import jimm.history.HistoryStorage;
+import jimm.modules.photo.PhotoListener;
+import protocol.net.TcpSocket;
+import ru.net.jimm.photo.CameraActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,7 +47,7 @@ public class ExternalApi implements ActivityResultListener {
         if (1000 < Math.max(width, height)) {
             try {
                 Intent extCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (!isCallable(extCameraIntent)) throw new Exception("not found");
+                if (isCallable(extCameraIntent)) throw new Exception("not found");
                 imageUrl = Uri.fromFile(getOutputMediaFile());
                 extCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUrl);
                 startActivityForResult(extCameraIntent, RESULT_EXTERNAL_PHOTO);
@@ -64,7 +67,7 @@ public class ExternalApi implements ActivityResultListener {
             Intent theIntent = new Intent(Intent.ACTION_GET_CONTENT);
             theIntent.setType("file/*");
             theIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-            if (!isCallable(theIntent)) return false;
+            if (isCallable(theIntent)) return false;
             startActivityForResult(theIntent, RESULT_EXTERNAL_FILE);
             return true;
         } catch (Exception e) {
@@ -74,8 +77,9 @@ public class ExternalApi implements ActivityResultListener {
     }
 
     private boolean isCallable(Intent intent) {
-        return !activity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty();
+        return activity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty();
     }
+
     private void startActivityForResult(Intent intent, int code) {
         activity.startActivityForResult(intent, code);
     }
@@ -99,6 +103,7 @@ public class ExternalApi implements ActivityResultListener {
                     Uri file = Uri.parse("file://" + getRealPathFromUri(data.getData()));
                     jimm.modules.DebugLog.println("pickFile " + imageUrl + " " + file);
                     if (!imageUrl.equals(file)) {
+                        //noinspection ResultOfMethodCallIgnored
                         new File(file.getPath()).delete();
                     }
                 }
@@ -135,7 +140,7 @@ public class ExternalApi implements ActivityResultListener {
     private String getRealPathFromUri(Uri uri) {
         try {
             if ("content".equals(uri.getScheme())) {
-                String[] proj = { MediaStore.MediaColumns.DATA };
+                String[] proj = {MediaStore.MediaColumns.DATA};
                 Cursor cursor = activity.managedQuery(uri, proj, null, null, null);
                 int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
                 cursor.moveToFirst();
@@ -159,6 +164,7 @@ public class ExternalApi implements ActivityResultListener {
 
 
     private static File getOutputMediaFile() {
+        @SuppressLint({"NewApi", "LocalSuppress"})
         File mediaStorageDir = new File(android.os.Environment.getExternalStoragePublicDirectory(
                 android.os.Environment.DIRECTORY_PICTURES), "Jimm");
 
@@ -170,7 +176,8 @@ public class ExternalApi implements ActivityResultListener {
         }
 
         // Create a media file name
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return new File(mediaStorageDir.getPath(), "IMG_"+ timeStamp + ".jpg");
+        return new File(mediaStorageDir.getPath(), "IMG_" + timeStamp + ".jpg");
     }
 }

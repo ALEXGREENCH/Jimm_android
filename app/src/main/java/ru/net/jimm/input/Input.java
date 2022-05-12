@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +50,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         updateInput();
         setId(id);
     }
+
     public void updateInput() {
         Log.d("init", "Input: updateInput");
         boolean simple = Options.getBoolean(Options.OPTION_SIMPLE_INPUT);
@@ -69,7 +69,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         Log.d("init", "Input: init");
 
         removeAllViewsInLayout();
-        ((Activity)getContext())
+        ((Activity) getContext())
                 .getLayoutInflater()
                 .inflate(layout, this, true);
 
@@ -95,8 +95,8 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
 
     @Override
     public void onClick(View view) {
-        Emotions.selectEmotion((canvas, cmd) -> ((JimmActivity)getContext()).post(() -> {
-            insert(" " + ((SmilesContent)canvas).getSelectedCode() + " ");
+        Emotions.selectEmotion((canvas, cmd) -> ((JimmActivity) getContext()).post(() -> {
+            insert(" " + ((SmilesContent) canvas).getSelectedCode() + " ");
             showKeyboard();
         }));
     }
@@ -122,9 +122,10 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
     public void showKeyboard() {
-        ((JimmActivity)getContext()).post(() -> messageEditor.requestFocus());
-        ((JimmActivity)getContext()).post(() -> showKeyboard(messageEditor));
+        ((JimmActivity) getContext()).post(() -> messageEditor.requestFocus());
+        ((JimmActivity) getContext()).post(() -> showKeyboard(messageEditor));
     }
 
     private void send() {
@@ -143,7 +144,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
     }
 
     public void setText(final String text) {
-        ((JimmActivity)getContext()).post(() -> {
+        ((JimmActivity) getContext()).post(() -> {
             String t = null == text ? "" : text;
             if ((0 == t.length()) || !canAdd(t)) {
                 messageEditor.setText(t);
@@ -154,6 +155,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         });
         showKeyboard();
     }
+
     public boolean canAdd(String what) {
         String text = getText();
         if (0 == text.length()) return false;
@@ -163,10 +165,12 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
         if (what.startsWith("#") && !text.contains(" ")) return false;
         return !text.endsWith(", ");
     }
+
     public void resetOwner() {
         Log.d("init", "Input: resetOwner");
         this.owner = null;
     }
+
     public void setOwner(Chat owner) {
         if (this.owner != owner) {
             this.owner = owner;
@@ -179,7 +183,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
                 final String hint = (null == name)
                         ? getContext().getString(R.string.hint_message)
                         : getContext().getString(R.string.hint_message_to, name);
-                ((JimmActivity)getContext()).post(() -> {
+                ((JimmActivity) getContext()).post(() -> {
                     messageEditor.setHint(hint);
                     messageEditor.setText(newState.text);
                     messageEditor.setSelection(newState.text.length());
@@ -187,12 +191,14 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
             }
         }
     }
+
     public void resetText() {
-        ((JimmActivity)getContext()).post(() -> {
+        ((JimmActivity) getContext()).post(() -> {
             messageEditor.setText("");
             state.text = "";
         });
     }
+
     public String getText() {
         return messageEditor.getText().toString();
     }
@@ -213,6 +219,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
                 || (EditorInfo.IME_ACTION_DONE == actionId)
                 || (EditorInfo.IME_ACTION_SEND == actionId);
     }
+
     private final TextView.OnEditorActionListener enterListener = (exampleView, actionId, event) -> {
         if (isDone(actionId)) {
             if ((null == event) || (event.getAction() == KeyEvent.ACTION_DOWN)) {
@@ -226,6 +233,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
     private final TextWatcher textWatcher = new TextWatcher() {
         private String previousText;
         private int lineCount = 0;
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             if (sendByEnter) {
@@ -265,6 +273,7 @@ public class Input extends LinearLayout implements View.OnClickListener, View.On
     private static class State {
         private final ChatModel ownerChatModel;
         private CharSequence text;
+
         public State(ChatModel model) {
             this.ownerChatModel = model;
             text = "";

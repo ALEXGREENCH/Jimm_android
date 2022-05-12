@@ -1,7 +1,9 @@
 package ru.net.jimm.client;
 
 import android.content.ComponentName;
-import android.os.*;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 
 /**
  * Created with IntelliJ IDEA.

@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 public class Tray {
 
     private final Context context;
-    private NotificationManager mNM;
+    private final NotificationManager mNM;
 
     private Method mSetForeground;
     private Method mStartForeground;
@@ -58,10 +58,10 @@ public class Tray {
      */
     public void startForegroundCompat(int id, Notification notification) {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             // If we have the new startForeground API, then use it.
             if (mStartForeground != null) {
-                mStartForegroundArgs[0] = Integer.valueOf(id);
+                mStartForegroundArgs[0] = id;
                 mStartForegroundArgs[1] = notification;
                 invokeMethod(mStartForeground, mStartForegroundArgs);
                 return;

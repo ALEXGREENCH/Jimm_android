@@ -4,21 +4,18 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import jimm.modules.DebugLog;
+
+import java.io.IOException;
+
 import jimm.modules.fs.FileSystem;
 import jimm.modules.fs.JSR75FileSystem;
-import protocol.net.TcpSocket;
 import ru.net.jimm.JimmActivity;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
- *
  * @author vladimir
  */
 public class SoundPlayer implements MediaPlayer.OnCompletionListener {
+
     private MediaPlayer androidPlayer;
 
     @Override
@@ -32,8 +29,9 @@ public class SoundPlayer implements MediaPlayer.OnCompletionListener {
             androidPlayer = null;
         }
     }
+
     public void play(String source, int volume) throws IOException {
-        AudioManager audioManager = (AudioManager)JimmActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) JimmActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
 
         if (AudioManager.RINGER_MODE_NORMAL == audioManager.getRingerMode()) {
             playIt(source.substring(1), volume);
@@ -41,6 +39,7 @@ public class SoundPlayer implements MediaPlayer.OnCompletionListener {
             close();
         }
     }
+
     private void playIt(String source, int volume) throws IOException {
         androidPlayer = new MediaPlayer();
         try {
@@ -58,6 +57,7 @@ public class SoundPlayer implements MediaPlayer.OnCompletionListener {
             throw e;
         }
     }
+
     public static String openFile(String file) {
         JSR75FileSystem fs = FileSystem.getInstance();
         String in = null;

@@ -1,10 +1,10 @@
 package ru.net.jimm.config;
 
-import jimm.comm.Config;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+
+import jimm.comm.Config;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,6 +17,7 @@ public class Templates {
     private static final String TEMPLATES_FILE = "templates.ini";
 
     private static final Map<String, String> storageToIni = new HashMap<String, String>();
+
     static {
         storageToIni.put(jimm.modules.Templates.TEMPLATE_STORAGE, TEMPLATES_FILE);
     }

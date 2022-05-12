@@ -11,5 +11,5 @@ import android.os.Message;
  * @author vladimir
  */
 interface Connection extends ServiceConnection {
-    public void send(Message msg);
+    void send(Message msg);
 }

@@ -1,6 +1,8 @@
 package ru.net.jimm.service;
 
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,13 +14,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.Messenger;
 import android.util.Log;
-
-import org.bombusmod.scrobbler.MusicReceiver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,10 +32,10 @@ import ru.net.jimm.tray.Tray;
 public class JimmService extends Service {
     private static final String LOG_TAG = "JimmService";
 
-    private final Messenger messenger = new Messenger(new Handler(new IncomingMessageHandler()));
+    //private final Messenger messenger = new Messenger(new Handler(new IncomingMessageHandler()));
     private final Binder localBinder = new LocalBinder();
 
-    private MusicReceiver musicReceiver;
+    //private MusicReceiver musicReceiver;
     private Tray tray = null;
     private WakeControl wakeLock;
     private JimmModel jimmModel;
@@ -80,6 +78,7 @@ public class JimmService extends Service {
         return localBinder;
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private Notification getNotification() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             int unread = getPersonalUnreadMessageCount(false);
@@ -112,7 +111,7 @@ public class JimmService extends Service {
                 // new
                 notification.contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
                 notification.tickerText = stateMsg;
-            }else {
+            } else {
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
 
                 try {
@@ -170,7 +169,7 @@ public class JimmService extends Service {
             notificationBuilder.setSmallIcon(icon)
                     .setContentTitle(getString(R.string.app_name))
                     .setContentText(stateMsg);
-                    //.setPriority(Notification.PRIORITY_MAX);
+            //.setPriority(Notification.PRIORITY_MAX);
 
             Intent resultIntent = new Intent(this, JimmActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -185,7 +184,7 @@ public class JimmService extends Service {
         }
     }
 
-    public boolean handleMessage(Message msg) {
+    public void handleMessage(Message msg) {
         switch (msg.what) {
             case UPDATE_CONNECTION_STATUS:
                 tray.startForegroundCompat(R.string.app_name, getNotification());
@@ -206,9 +205,7 @@ public class JimmService extends Service {
                 stopSelf();
                 break;
             default:
-                return false;
         }
-        return true;
     }
 
     /**
@@ -222,6 +219,7 @@ public class JimmService extends Service {
         }
     }
 
+    /*
     private class IncomingMessageHandler implements Handler.Callback {
         public boolean handleMessage(Message msg) {
             try {
@@ -230,8 +228,10 @@ public class JimmService extends Service {
                 return false;
             }
         }
-    }
 
+     */
+
+    @TargetApi(Build.VERSION_CODES.ECLAIR)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // We want this service to continue running until it is explicitly
@@ -241,10 +241,9 @@ public class JimmService extends Service {
 
     private int getPersonalUnreadMessageCount(boolean all) {
         int count = 0;
-        for (Object c : jimmModel.chats) {
-            ChatModel chat = (ChatModel) c;
-            if (all || chat.isHuman() || !chat.getContact().isSingleUserContact()) {
-                count += chat.getPersonalUnreadMessageCount();
+        for (ChatModel c : jimmModel.chats) {
+            if (all || c.isHuman() || !c.getContact().isSingleUserContact()) {
+                count += c.getPersonalUnreadMessageCount();
             }
         }
         return count;

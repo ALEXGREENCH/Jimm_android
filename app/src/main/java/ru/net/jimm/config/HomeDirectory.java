@@ -1,11 +1,11 @@
 package ru.net.jimm.config;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import jimm.JimmException;
 import jimm.comm.StringUtils;
 import protocol.net.TcpSocket;
-
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +15,7 @@ import java.io.OutputStream;
  * @author vladimir
  */
 public class HomeDirectory {
+
     public static jimm.modules.fs.JSR75FileSystem getFile(String file) {
         jimm.modules.fs.JSR75FileSystem fs = jimm.modules.fs.FileSystem.getInstance();
         String home = jimm.modules.fs.FileSystem.getJimmHome();
@@ -54,6 +55,7 @@ public class HomeDirectory {
         TcpSocket.close(stream);
         fs.close();
     }
+
     public static boolean exist(String file) {
         jimm.modules.fs.JSR75FileSystem fs = getFile(file);
         boolean exist = fs.exists();

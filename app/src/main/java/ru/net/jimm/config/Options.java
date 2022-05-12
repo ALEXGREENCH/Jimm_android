@@ -1,10 +1,10 @@
 package ru.net.jimm.config;
 
-import jimm.comm.Config;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.TimeZone;
+
+import jimm.comm.Config;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,15 +19,12 @@ public class Options {
 
     public void store() {
         final IniBuilder sb = new IniBuilder();
-        each(new Processor() {
-            @Override
-            public void process(String name, int key, Object value) {
-                if (null == value) {
-                    sb.comment();
-                    value = getDefault(key);
-                }
-                sb.line(name, value);
+        each((name, key, value) -> {
+            if (null == value) {
+                sb.comment();
+                value = getDefault(key);
             }
+            sb.line(name, value);
         });
         HomeDirectory.putContent(OPTION_FILE, sb.toString());
     }
@@ -69,6 +66,7 @@ public class Options {
         }
         return null;
     }
+
     private Object getDefault(int key) {
         if (key < 0) {
             return null;
@@ -87,14 +85,15 @@ public class Options {
 
     private int getOptionKey(String name) {
         try {
-            Class clazz = jimm.Options.class;
+            Class<jimm.Options> clazz = jimm.Options.class;
             return clazz.getField(OPTIONS_PREFIX + name.toUpperCase()).getInt(null);
         } catch (Exception e) {
             return -1;
         }
     }
+
     private void each(Processor p) {
-        Class clazz = jimm.Options.class;
+        Class<jimm.Options> clazz = jimm.Options.class;
         Object[] options = getOptionsArray();
         for (Field field : clazz.getDeclaredFields()) {
             try {
@@ -109,9 +108,10 @@ public class Options {
             }
         }
     }
+
     private Object[] getOptionsArray() {
         Object[] options = null;
-        Class clazz = jimm.Options.class;
+        Class<jimm.Options> clazz = jimm.Options.class;
         try {
             Field optionsField = clazz.getDeclaredField("options");
             boolean accessible = optionsField.isAccessible();
@@ -123,7 +123,7 @@ public class Options {
         return options;
     }
 
-    private static interface Processor {
+    private interface Processor {
         void process(String name, int key, Object value);
     }
 }
