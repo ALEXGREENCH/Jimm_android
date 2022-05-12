@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
-        applicationId 'ru.net.jimm'
+        applicationId 'ru.net.jimm.allesaiel_mod'
         minSdkVersion 4
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 27
-        versionCode 51
+        targetSdkVersion 31
+        versionCode 52
         versionName "0.7.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
