@@ -33,6 +33,7 @@ android {
     lint {
         abortOnError false
     }
+    namespace 'ru.net.jimm'
 }
 
 dependencies {
